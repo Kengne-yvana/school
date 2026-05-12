@@ -31,10 +31,12 @@ This project provides RESTful endpoints to create, read, update, and delete stud
 ## Running the application
 
 1. Ensure PostgreSQL is running and create the database:
-   - Run `./gradlew createDatabase` to create the `schoolapi` database.
-   - Alternatively, manually: `psql -h localhost -U postgres -c "CREATE DATABASE schoolapi;"` (enter password when prompted).
+   - Run `./gradlew createDatabase` to create the `schoolapi` database on port 5433.
+   - Alternatively, manually: `psql -h localhost -p 5433 -U postgres -c "CREATE DATABASE schoolapi;"` (enter password when prompted).
+   - If your PostgreSQL is on port 5432, update `application.properties` accordingly.
 2. Configure your database in `src/main/resources/application.properties`.
-   - Current configuration is for a PostgreSQL database at `jdbc:postgresql://localhost:5432/schoolapi`.
+   - Current configuration is for a PostgreSQL database at `jdbc:postgresql://localhost:5433/schoolapi`.
+   - Adjust the port if your PostgreSQL instance uses a different one (e.g., 5432).
 3. Build and run the application using Gradle:
 
 ```bash
@@ -48,6 +50,35 @@ Or using the Gradle wrapper:
 ```
 
 4. The application will start on `http://localhost:8080` by default.
+   - API documentation available at `http://localhost:8080/swagger-ui.html`
+
+## Docker
+
+To run the application with Docker:
+
+1. Build the JAR file:
+```bash
+./gradlew build -x test
+```
+
+2. Run with Docker Compose:
+```bash
+docker-compose up
+```
+
+This will start:
+- PostgreSQL database on port 5433
+- Spring Boot application on port 8080
+
+To stop the containers:
+```bash
+docker-compose down
+```
+
+To rebuild and run:
+```bash
+docker-compose up --build
+```.
 
 ## API Endpoints
 
